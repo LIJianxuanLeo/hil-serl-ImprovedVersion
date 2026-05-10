@@ -53,8 +53,8 @@ The V2.0 → V2.1 refactor is the substantive engineering contribution:
 the design comes from
 `hilserl_抓取任务_稀疏奖励替换为稠密奖励_完整实现流程.docx`
 (2026-05-04 engineering scheme), which we ported with minor grasp-event
-and lift-clip refinements. Ablation guidance: see each variant's
-`docs/CHANGES.md` §8b.
+and lift-clip refinements. Ablation guidance: see
+[`docs/02-改进记录/CHANGES.md`](docs/02-改进记录/CHANGES.md) §8b.
 
 ### F6 + F7 logging
 
@@ -82,18 +82,23 @@ All columns also stream to wandb (`wandb.enable=true` in the
 ```
 hil-serl-ImprovedVersion/
 ├── README.md              ← this file (bilingual)
-├── docs/                  ← all unified technical docs live here
-│   ├── architecture-overview.md           ← navigation across the 2x2 matrix
-│   ├── CHANGES.md                         ← V1 → V2.0 → V2.1 changelog
-│   ├── DEPLOY_GUIDE.md                    ← end-to-end environment setup
-│   ├── 实验合作内容.md                      ← collaborator playbook (training / hand-off)
-│   ├── 4090_1h_cheatsheet.md              ← 1-hour smoke-run recipe
-│   ├── TOUCH_INTERVENTION_GUIDE.md        ← touch-haptic teleop wiring
-│   ├── 参数对比_V1_V2_vs_hil-serl-sim.md   ← hyperparameter delta table
-│   ├── sim_architecture_alignment.md      ← PyTorch sim ↔ JAX sim alignment
-│   ├── hil-serl-sim_复现结果分析.md         ← upstream-run diagnostic notes
-│   ├── hil-serl-sim_算力与远程训练方案.md    ← compute / remote training plan
-│   └── 远程算力机加速拉取方案.md             ← faster `git pull` from China-region pods
+├── docs/                  ← all unified technical docs live here, grouped by purpose
+│   ├── README.md                          ← docs index
+│   ├── 01-架构与设计/                       ← architecture & design alignment
+│   │   ├── architecture-overview.md           — 2x2 matrix navigation
+│   │   ├── sim_architecture_alignment.md      — PyTorch sim ↔ JAX sim alignment
+│   │   └── 参数对比_V1_V2_vs_hil-serl-sim.md   — hyperparameter delta table
+│   ├── 02-改进记录/                         ← changes against upstream
+│   │   └── CHANGES.md                         — V1 → V2.0 → V2.1 changelog
+│   ├── 03-部署与训练指南/                    ← deployment & training playbooks
+│   │   ├── DEPLOY_GUIDE.md                    — end-to-end environment setup
+│   │   ├── 实验合作内容.md                      — collaborator playbook
+│   │   └── TOUCH_INTERVENTION_GUIDE.md        — touch-haptic teleop wiring
+│   ├── 04-远程算力与传输/                    ← remote compute & transfer
+│   │   ├── hil-serl-sim_算力与远程训练方案.md    — compute / remote training plan
+│   │   └── 远程算力机加速拉取方案.md             — faster `git pull` from China-region pods
+│   └── 05-结果分析/                         ← experiment results
+│       └── hil-serl-sim_复现结果分析.md         — upstream-run diagnostic notes
 │
 ├── results/               ← shared task results (4090 smoke runs, figures)
 ├── academic/              ← LOCAL-ONLY (paper / slides / defense / report)
@@ -147,9 +152,11 @@ cd lerobot && ./run_actor.sh
 
 For headless / SSH / no-GUI machines, swap `./run_learner.sh` →
 `./run_learner.sh headless` and add `MUJOCO_GL=egl`.
-Detailed instructions: [`v2-pytorch/docs/DEPLOY_GUIDE.md`](v2-pytorch/docs/DEPLOY_GUIDE.md).
+Detailed instructions: [`docs/03-部署与训练指南/DEPLOY_GUIDE.md`](docs/03-部署与训练指南/DEPLOY_GUIDE.md).
 
 ### Where to look for what
+
+Full docs index: [`docs/README.md`](docs/README.md).
 
 | I want to … | Go to |
 |---|---|
@@ -157,14 +164,15 @@ Detailed instructions: [`v2-pytorch/docs/DEPLOY_GUIDE.md`](v2-pytorch/docs/DEPLO
 | Compare with sparse baseline | `v1-pytorch/lerobot/run_learner.sh` |
 | Reproduce the 10%-success run that started this work | `v1-jax/hil-serl-sim/run_learner.sh` |
 | JAX-vs-PyTorch comparison with same reward | `v2-jax/` paired with `v2-pytorch/` |
-| Full reward-redesign rationale | [`docs/CHANGES.md`](docs/CHANGES.md) §8 / §8b |
-| Operational playbook for collaborator | [`docs/实验合作内容.md`](docs/实验合作内容.md) |
-| End-to-end environment setup | [`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md) |
-| 4090 / A100 1-hour cheatsheet | [`docs/4090_1h_cheatsheet.md`](docs/4090_1h_cheatsheet.md) |
-| Touch-haptic intervention guide | [`docs/TOUCH_INTERVENTION_GUIDE.md`](docs/TOUCH_INTERVENTION_GUIDE.md) |
-| Hyperparameter delta across variants | [`docs/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/参数对比_V1_V2_vs_hil-serl-sim.md) |
-| Faster `git pull` for China-region pods | [`docs/远程算力机加速拉取方案.md`](docs/远程算力机加速拉取方案.md) |
-| Architecture: how the 4 variants relate | [`docs/architecture-overview.md`](docs/architecture-overview.md) |
+| Full reward-redesign rationale | [`docs/02-改进记录/CHANGES.md`](docs/02-改进记录/CHANGES.md) §8 / §8b |
+| Operational playbook for collaborator | [`docs/03-部署与训练指南/实验合作内容.md`](docs/03-部署与训练指南/实验合作内容.md) |
+| End-to-end environment setup | [`docs/03-部署与训练指南/DEPLOY_GUIDE.md`](docs/03-部署与训练指南/DEPLOY_GUIDE.md) |
+| Touch-haptic intervention guide | [`docs/03-部署与训练指南/TOUCH_INTERVENTION_GUIDE.md`](docs/03-部署与训练指南/TOUCH_INTERVENTION_GUIDE.md) |
+| Hyperparameter delta across variants | [`docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md) |
+| Compute selection / remote training | [`docs/04-远程算力与传输/hil-serl-sim_算力与远程训练方案.md`](docs/04-远程算力与传输/hil-serl-sim_算力与远程训练方案.md) |
+| Faster `git pull` for China-region pods | [`docs/04-远程算力与传输/远程算力机加速拉取方案.md`](docs/04-远程算力与传输/远程算力机加速拉取方案.md) |
+| Architecture: how the 4 variants relate | [`docs/01-架构与设计/architecture-overview.md`](docs/01-架构与设计/architecture-overview.md) |
+| Upstream reproduction analysis (10% success) | [`docs/05-结果分析/hil-serl-sim_复现结果分析.md`](docs/05-结果分析/hil-serl-sim_复现结果分析.md) |
 | Numerical results (smoke runs, figures) | [`results/4090_smoke_run/`](results/4090_smoke_run/) |
 
 ### License
@@ -211,7 +219,7 @@ HIL-SERL（[Luo et al. 2024](https://arxiv.org/abs/2410.21845)）声称能让真
 V2.0 → V2.1 的重构是本项目实质性的工程贡献：设计来自
 `hilserl_抓取任务_稀疏奖励替换为稠密奖励_完整实现流程.docx`
 （2026-05-04 工程方案），我们在抓取事件检测与抬升 clip 上做了少量精化后
-完整移植。消融指引见每个变体的 `docs/CHANGES.md` §8b。
+完整移植。消融指引见 [`docs/02-改进记录/CHANGES.md`](docs/02-改进记录/CHANGES.md) §8b。
 
 ### F6 + F7 日志
 
@@ -238,18 +246,23 @@ V2.0 → V2.1 的重构是本项目实质性的工程贡献：设计来自
 ```
 hil-serl-ImprovedVersion/
 ├── README.md              ← 本文件（中英对照）
-├── docs/                  ← 所有统一技术文档都放这里
-│   ├── architecture-overview.md           ← 跨变体导航（2x2 矩阵）
-│   ├── CHANGES.md                         ← V1 → V2.0 → V2.1 变更日志
-│   ├── DEPLOY_GUIDE.md                    ← 端到端部署指南
-│   ├── 实验合作内容.md                      ← 协作者训练剧本
-│   ├── 4090_1h_cheatsheet.md              ← 1 小时 smoke run 速通
-│   ├── TOUCH_INTERVENTION_GUIDE.md        ← Touch 触觉介入接线
-│   ├── 参数对比_V1_V2_vs_hil-serl-sim.md   ← 超参对比表
-│   ├── sim_architecture_alignment.md      ← PyTorch 仿真 ↔ JAX 仿真对齐
-│   ├── hil-serl-sim_复现结果分析.md         ← 上游复现诊断笔记
-│   ├── hil-serl-sim_算力与远程训练方案.md    ← 算力与远程训练方案
-│   └── 远程算力机加速拉取方案.md             ← 国内 GPU 服务器加速 git pull
+├── docs/                  ← 所有统一技术文档，按用途分组
+│   ├── README.md                          ← 文档索引
+│   ├── 01-架构与设计/                       ← 架构与设计对齐
+│   │   ├── architecture-overview.md           — 2x2 矩阵跨变体导航
+│   │   ├── sim_architecture_alignment.md      — PyTorch 仿真 ↔ JAX 仿真对齐
+│   │   └── 参数对比_V1_V2_vs_hil-serl-sim.md   — 超参差异表
+│   ├── 02-改进记录/                         ← 相对上游的修改
+│   │   └── CHANGES.md                         — V1 → V2.0 → V2.1 变更日志
+│   ├── 03-部署与训练指南/                    ← 部署与训练剧本
+│   │   ├── DEPLOY_GUIDE.md                    — 端到端环境部署
+│   │   ├── 实验合作内容.md                      — 协作者训练剧本
+│   │   └── TOUCH_INTERVENTION_GUIDE.md        — Touch 触觉介入接线
+│   ├── 04-远程算力与传输/                    ← 远程算力与传输
+│   │   ├── hil-serl-sim_算力与远程训练方案.md    — 算力选型与远程训练方案
+│   │   └── 远程算力机加速拉取方案.md             — 国内服务器加速 git pull
+│   └── 05-结果分析/                         ← 实验结果
+│       └── hil-serl-sim_复现结果分析.md         — 上游复现诊断报告
 │
 ├── results/               ← 共享任务结果（4090 smoke 数据、图表）
 ├── academic/              ← 仅本地（paper / slides / defense / report）
@@ -301,9 +314,11 @@ cd lerobot && ./run_actor.sh
 
 无显示器 / SSH 远程跑：把 `./run_learner.sh` 换成
 `./run_learner.sh headless` 并加 `MUJOCO_GL=egl`。
-完整指引：[`v2-pytorch/docs/DEPLOY_GUIDE.md`](v2-pytorch/docs/DEPLOY_GUIDE.md)。
+完整指引：[`docs/03-部署与训练指南/DEPLOY_GUIDE.md`](docs/03-部署与训练指南/DEPLOY_GUIDE.md)。
 
 ### 想找什么去哪里
+
+完整文档索引：[`docs/README.md`](docs/README.md)。
 
 | 我想…… | 去 |
 |---|---|
@@ -311,14 +326,15 @@ cd lerobot && ./run_actor.sh
 | 跑稀疏 baseline 做对照 | `v1-pytorch/lerobot/run_learner.sh` |
 | 复现合作者那次 10% 成功率 | `v1-jax/hil-serl-sim/run_learner.sh` |
 | 同 reward 下 JAX vs PyTorch 对比 | `v2-jax/` 与 `v2-pytorch/` 配合 |
-| 看 reward 重构完整原理 | [`docs/CHANGES.md`](docs/CHANGES.md) §8 / §8b |
-| 合作者训练 / 协作剧本 | [`docs/实验合作内容.md`](docs/实验合作内容.md) |
-| 端到端部署 | [`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md) |
-| 4090 / A100 1 小时速通 | [`docs/4090_1h_cheatsheet.md`](docs/4090_1h_cheatsheet.md) |
-| Touch 触觉干预指引 | [`docs/TOUCH_INTERVENTION_GUIDE.md`](docs/TOUCH_INTERVENTION_GUIDE.md) |
-| 各变体超参差异表 | [`docs/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/参数对比_V1_V2_vs_hil-serl-sim.md) |
-| 国内服务器加速 git pull | [`docs/远程算力机加速拉取方案.md`](docs/远程算力机加速拉取方案.md) |
-| 架构：四个变体如何关联 | [`docs/architecture-overview.md`](docs/architecture-overview.md) |
+| 看 reward 重构完整原理 | [`docs/02-改进记录/CHANGES.md`](docs/02-改进记录/CHANGES.md) §8 / §8b |
+| 合作者训练 / 协作剧本 | [`docs/03-部署与训练指南/实验合作内容.md`](docs/03-部署与训练指南/实验合作内容.md) |
+| 端到端部署 | [`docs/03-部署与训练指南/DEPLOY_GUIDE.md`](docs/03-部署与训练指南/DEPLOY_GUIDE.md) |
+| Touch 触觉干预指引 | [`docs/03-部署与训练指南/TOUCH_INTERVENTION_GUIDE.md`](docs/03-部署与训练指南/TOUCH_INTERVENTION_GUIDE.md) |
+| 各变体超参差异表 | [`docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md) |
+| 算力选型 / 远程训练方案 | [`docs/04-远程算力与传输/hil-serl-sim_算力与远程训练方案.md`](docs/04-远程算力与传输/hil-serl-sim_算力与远程训练方案.md) |
+| 国内服务器加速 git pull | [`docs/04-远程算力与传输/远程算力机加速拉取方案.md`](docs/04-远程算力与传输/远程算力机加速拉取方案.md) |
+| 架构：四个变体如何关联 | [`docs/01-架构与设计/architecture-overview.md`](docs/01-架构与设计/architecture-overview.md) |
+| 上游复现实测结果（10% 成功率诊断） | [`docs/05-结果分析/hil-serl-sim_复现结果分析.md`](docs/05-结果分析/hil-serl-sim_复现结果分析.md) |
 | 数值结果（smoke run、图表） | [`results/4090_smoke_run/`](results/4090_smoke_run/) |
 
 ### 许可

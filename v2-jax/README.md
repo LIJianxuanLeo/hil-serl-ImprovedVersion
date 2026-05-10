@@ -134,7 +134,7 @@ task, not by grinding shaping reward.
 - V2 reward design: ported from `../v2-pytorch/lerobot/src/lerobot/rl/staged_reward_wrapper.py`
   (PyTorch / lerobot variant). The math is byte-identical so any
   JAX-vs-PyTorch comparison isolates the framework, not the reward.
-- The original PyTorch V2 design doc: [`../docs/CHANGES.md`](../docs/CHANGES.md)
+- The original PyTorch V2 design doc: [`../docs/02-改进记录/CHANGES.md`](../docs/02-改进记录/CHANGES.md)
   §8 / §8b (V1 → V2.0 → V2.1 reward redesign rationale).
 
 ## License

@@ -38,7 +38,7 @@ non-collapsed disagreement (visible in `critic_disagreement` column).
 ✅ **GPU footprint**: 241 MB peak — leaves 24 GB headroom on RTX 4090. Confirms our
 4090-safe config (network 256, REDQ-6) is comfortably within VRAM.
 ✅ **V1 vs V2 design contrast**: Q-value evolution and success-rate gap match the
-theoretical predictions in `docs/参数对比_V1_V2_vs_hil-serl-sim.md` Section 6.3.
+theoretical predictions in `docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md` Section 6.3.
 
 ## What this run does NOT validate
 
@@ -50,7 +50,7 @@ don't reflect actual policy quality.
 will need either the patch chain to be merged upstream or a fresh `lerobot-dataset` install.
 
 For the actual policy capability, refer to the hil-serl-sim 10 % baseline analysis in
-`docs/hil-serl-sim_复现结果分析.md`.
+`docs/05-结果分析/hil-serl-sim_复现结果分析.md`.
 
 ---
 

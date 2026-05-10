@@ -108,11 +108,11 @@ wandb login
 
 ## 文档
 
-整合仓库的所有技术文档统一在 **[`../docs/`](../docs/)** 下：
-- **[`../docs/DEPLOY_GUIDE.md`](../docs/DEPLOY_GUIDE.md)** — 完整安装、配置、训练、调参指南
-- **[`../docs/CHANGES.md`](../docs/CHANGES.md)** — 所有修改项的技术分析（V1 → V2.0 → V2.1 完整变更）
-- **[`../docs/实验合作内容.md`](../docs/实验合作内容.md)** — A100 协作训练剧本
-- **[`../docs/architecture-overview.md`](../docs/architecture-overview.md)** — 跨变体（V1/V2 × PT/JAX）架构总览
+整合仓库的所有技术文档统一在 **[`../docs/`](../docs/)**（按用途分组，索引见 [`../docs/README.md`](../docs/README.md)）：
+- **[`../docs/03-部署与训练指南/DEPLOY_GUIDE.md`](../docs/03-部署与训练指南/DEPLOY_GUIDE.md)** — 完整安装、配置、训练、调参指南
+- **[`../docs/02-改进记录/CHANGES.md`](../docs/02-改进记录/CHANGES.md)** — 所有修改项的技术分析（V1 → V2.0 → V2.1 完整变更）
+- **[`../docs/03-部署与训练指南/实验合作内容.md`](../docs/03-部署与训练指南/实验合作内容.md)** — A100 协作训练剧本
+- **[`../docs/01-架构与设计/architecture-overview.md`](../docs/01-架构与设计/architecture-overview.md)** — 跨变体（V1/V2 × PT/JAX）架构总览
 
 ## 项目结构
 
