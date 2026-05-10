@@ -1,7 +1,8 @@
 # Architecture overview — how the four variants relate
 
-This is the cross-cutting map. Each variant has its own deeper docs in
-`<variant>/docs/`; this file is the navigation layer between them.
+This is the cross-cutting map. All technical documentation lives next to
+this file in the repo-root `docs/` folder; this file is the entry point
+that points into the rest.
 
 ## The 2 × 2 matrix
 
@@ -40,7 +41,7 @@ This is the cross-cutting map. Each variant has its own deeper docs in
 
 | Axis | What changes |
 |---|---|
-| **Reward (V1 → V2)** | sparse 0/1 → hybrid sparse + small dense shaping, with anti-farming guarantees. See [`v2-pytorch/docs/CHANGES.md`](../v2-pytorch/docs/CHANGES.md) §8 / §8b. |
+| **Reward (V1 → V2)** | sparse 0/1 → hybrid sparse + small dense shaping, with anti-farming guarantees. See [`CHANGES.md`](CHANGES.md) §8 / §8b. |
 | **Framework (PyTorch → JAX)** | lerobot's modular SAC with REDQ in PyTorch ↔ serl_launcher's RLPD trainer in JAX/Flax. Different impls, different optimisations, different logging stacks. |
 | **Logging schema (V1 → V2.1)** | V2.1 PyTorch adds **F7** per-stage reward sums (`r_sub_*` + `grasp_event_fired`). JAX V2.1 surfaces the same dict via `info["reward_dict"]` but the JAX trainer doesn't yet pipe it into its loggers — see [JAX side TODO](#jax-side-followups). |
 
@@ -79,25 +80,24 @@ v2-jax/hil-serl-sim/run_actor.sh
 v2-jax/hil-serl-sim/examples/experiments/pick_cube_sim/staged_reward_wrapper.py
 ```
 
-### Per-variant docs
+### Unified docs (all in this folder)
 
 ```
-v1-pytorch/docs/CHANGES.md                # V1 changelog (8 numbered fixes)
-v1-pytorch/docs/DEPLOY_GUIDE.md           # how to deploy on a fresh GPU pod
-v1-pytorch/docs/4090_1h_cheatsheet.md     # 1-hour quick smoke-run recipe
-v1-pytorch/docs/TOUCH_INTERVENTION_GUIDE.md  # touch-haptic teleop wiring
-v1-pytorch/docs/实验合作内容.md            # operations playbook for collaborator
-v1-pytorch/docs/sim_architecture_alignment.md  # how PyTorch sim mirrors JAX sim
-v1-pytorch/docs/参数对比_V1_V2_vs_hil-serl-sim.md  # hyperparameter delta table
-v1-pytorch/docs/hil-serl-sim_*.md         # JAX-side analysis notes
-
-v2-pytorch/docs/                          # same set, V2.1-aware updates
-                                          #   CHANGES.md adds §8b (V2.0→V2.1)
-                                          #   实验合作内容.md adds WandB section
+docs/CHANGES.md                       # full V1 → V2.0 → V2.1 changelog (with §8b reward refactor)
+docs/DEPLOY_GUIDE.md                  # how to deploy on a fresh GPU pod
+docs/4090_1h_cheatsheet.md            # 1-hour quick smoke-run recipe
+docs/TOUCH_INTERVENTION_GUIDE.md      # touch-haptic teleop wiring
+docs/实验合作内容.md                    # operations playbook for collaborator (incl. wandb section)
+docs/sim_architecture_alignment.md    # how PyTorch sim mirrors JAX sim
+docs/参数对比_V1_V2_vs_hil-serl-sim.md  # hyperparameter delta table
+docs/hil-serl-sim_复现结果分析.md       # upstream-run diagnostic notes
+docs/hil-serl-sim_算力与远程训练方案.md  # compute / remote training plan
+docs/远程算力机加速拉取方案.md           # faster `git pull` from China-region pods
 ```
 
-The two `docs/` folders share most content. V2-PT's is the freshest;
-diff the two for the V1-vs-V2 evolution.
+These docs are written assuming you `cd` into a variant subdirectory
+(e.g. `cd v2-pytorch/`) before running anything — paths inside the
+guides are relative to that variant root.
 
 ### Cross-variant resources (this consolidation level)
 

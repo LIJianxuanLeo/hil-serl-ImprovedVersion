@@ -383,8 +383,8 @@ ls -lh /workspace/run_*.tar.gz
 
 1. 仓库改为：
 ```bash
-git clone https://github.com/LIJianxuanLeo/hilserl-surrol-improved.git
-git clone https://github.com/LIJianxuanLeo/hilserl-surrol-improved-v2.git
+git clone https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion.git
+git clone 
 ```
 
 2. 显存需求大幅降低（详见前文对比），**RTX 3090 / 4090 / A6000 都富余**，无需极端优化。

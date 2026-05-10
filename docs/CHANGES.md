@@ -1,6 +1,8 @@
 # 改进记录
 
-基于 [GeorgeAuburn/hilserl-surrol](https://github.com/GeorgeAuburn/hilserl-surrol) 的改进。
+> 本文档记录 PyTorch / lerobot 变体（`v1-pytorch/` 与 `v2-pytorch/`）相对
+> 上游 SurRoL HIL-SERL baseline 的改进。每条修复都标注了文件路径，路径相对
+> 变体根目录（即 `cd v1-pytorch/` 或 `cd v2-pytorch/` 之后）。
 
 ## 训练不收敛根因分析
 

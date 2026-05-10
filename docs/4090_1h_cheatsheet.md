@@ -3,6 +3,11 @@
 > **目的**：在 4090 服务器上 1 小时内拿到 V1 + V2 真实早期训练数据，论文 Section 8 直接用。
 > **核心妥协**：无 Touch 干预（headless 模式），网络宽度从 512 降到 256（4090 24G 显存安全）。
 > **保留**：UTD=8 / REDQ-6 / DRQ pad=6 / async_prefetch / unfrozen encoder / F6 完整 32 列日志。
+>
+> **路径前提**：所有 `cd ~/project/hil-serl-ImprovedVersion/v[12]-pytorch/...` 命令都基于
+> 整合仓库 `hil-serl-ImprovedVersion` 的标准布局。首次拉取：
+> `git clone https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion.git ~/project/hil-serl-ImprovedVersion`。
+> 之后 V1/V2 都在同一仓库内，互相切换只需 `cd v1-pytorch/` ↔ `cd v2-pytorch/`。
 
 ---
 
@@ -25,8 +30,8 @@ ssh <4090>
 cd ~/project   # 或新建
 
 # 拉最新代码（用 ghproxy 加速）
-git clone --depth 1 https://ghproxy.com/https://github.com/LIJianxuanLeo/hilserl-surrol-improved.git
-git clone --depth 1 https://ghproxy.com/https://github.com/LIJianxuanLeo/hilserl-surrol-improved-v2.git
+git clone --depth 1 https://ghproxy.com/https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion.git
+git clone --depth 1 https://ghproxy.com/
 # 已 clone 过则：cd <repo> && git pull
 
 # 配置已是 4090-safe（REDQ-6, network 256），headless 变体已自带，无需任何改动
@@ -45,7 +50,7 @@ export MUJOCO_GL=egl
 
 ### 启动
 ```bash
-cd ~/project/hilserl-surrol-improved/lerobot
+cd ~/project/hil-serl-ImprovedVersion/v1-pytorch/lerobot
 
 # 1) 自动归档 + 提示
 ./start_paper_run.sh   # 但要忽略它的提示，因为咱们用 headless 配置
@@ -113,7 +118,7 @@ cat outputs/train/paper_run_headless_v1/training_logs/training_summary.json
 ## Phase 3：V2 训练（20 min）— 同流程切到 V2 仓库
 
 ```bash
-cd ~/project/hilserl-surrol-improved-v2/lerobot
+cd ~/project/hil-serl-ImprovedVersion/v2-pytorch/lerobot
 ./start_paper_run.sh    # 同样忽略提示
 
 nohup python -m lerobot.rl.learner \
@@ -134,12 +139,12 @@ nohup python -m lerobot.rl.actor \
 ## Phase 4：生成对比图（10 min）
 
 ```bash
-cd ~/project/hilserl-surrol-improved/lerobot
+cd ~/project/hil-serl-ImprovedVersion/v1-pytorch/lerobot
 
 # 三个 PDF 一次出
 python plot_paper.py \
-    --v1 ~/project/hilserl-surrol-improved/lerobot/outputs/train/paper_run_headless_v1 \
-    --v2 ~/project/hilserl-surrol-improved-v2/lerobot/outputs/train/paper_run_headless_v2 \
+    --v1 ~/project/hil-serl-ImprovedVersion/v1-pytorch/lerobot/outputs/train/paper_run_headless_v1 \
+    --v2 ~/project/hil-serl-ImprovedVersion/v2-pytorch/lerobot/outputs/train/paper_run_headless_v2 \
     --out figures_4090_1h
 
 ls figures_4090_1h/
@@ -164,7 +169,7 @@ echo ""
 echo "=== V2 results ==="
 python3 -c "
 import json
-s = json.load(open('/root/project/hilserl-surrol-improved-v2/lerobot/outputs/train/paper_run_headless_v2/training_logs/training_summary.json'))
+s = json.load(open('/root/project/hil-serl-ImprovedVersion/v2-pytorch/lerobot/outputs/train/paper_run_headless_v2/training_logs/training_summary.json'))
 for k in ['training_duration_s', 'total_optimization_steps', 'total_episodes',
          'total_successes', 'training_success_rate', 'best_episodic_reward']:
     print(f'  {k}: {s.get(k)}')
@@ -177,7 +182,7 @@ for k in ['training_duration_s', 'total_optimization_steps', 'total_episodes',
 
 ```bash
 # V1
-cd ~/project/hilserl-surrol-improved
+cd ~/project/hil-serl-ImprovedVersion/v1-pytorch
 mkdir -p docs/results/4090_1h_run
 cp lerobot/outputs/train/paper_run_headless_v1/training_logs/*.csv  docs/results/4090_1h_run/
 cp lerobot/outputs/train/paper_run_headless_v1/training_logs/*.json docs/results/4090_1h_run/
@@ -187,7 +192,7 @@ git commit -m "feat: 4090 1-hour real training data — V1 sparse headless"
 git push origin main
 
 # V2
-cd ~/project/hilserl-surrol-improved-v2
+cd ~/project/hil-serl-ImprovedVersion/v2-pytorch
 mkdir -p docs/results/4090_1h_run
 cp lerobot/outputs/train/paper_run_headless_v2/training_logs/*.csv  docs/results/4090_1h_run/
 cp lerobot/outputs/train/paper_run_headless_v2/training_logs/*.json docs/results/4090_1h_run/
@@ -237,7 +242,7 @@ pkill -f lerobot.rl.actor
 # 数据先打 tar，scp 回本地
 tar -czf 4090_results.tar.gz docs/results/4090_1h_run
 # 在本地执行
-scp 4090:~/project/hilserl-surrol-improved/4090_results.tar.gz ~/Downloads/
+scp 4090:~/project/hil-serl-ImprovedVersion/v1-pytorch/4090_results.tar.gz ~/Downloads/
 # 解压后本地 commit + push
 ```
 

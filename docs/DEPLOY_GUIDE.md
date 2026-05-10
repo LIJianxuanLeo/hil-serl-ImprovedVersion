@@ -203,8 +203,8 @@ lsusb | grep -i "haptic\|phantom\|geomagic\|sensable"
 
 ```bash
 cd ~/projects  # 或你选择的工作目录
-git clone --recursive https://github.com/LIJianxuanLeo/hilserl-surrol-improved.git
-cd hilserl-surrol-improved
+git clone --recursive https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion.git
+cd hil-serl-ImprovedVersion/v1-pytorch
 ```
 
 ### 5.2 一键安装
@@ -244,7 +244,7 @@ pip install grpcio protobuf
 # 5. 手动编辑配置文件
 # 将 train_config_gym_hil_touch.json 和 env_config_gym_hil_touch_record.json 中的
 # "__HAPTIC_MODULE_PATH__" 替换为实际路径，例如：
-# /home/你的用户名/projects/hilserl-surrol-improved/SurRoL_v2/haptic_src
+# /home/你的用户名/projects/hil-serl-ImprovedVersion/v1-pytorch/SurRoL_v2/haptic_src
 
 # 6. 链接数据集（如果使用预采集数据）
 mkdir -p ~/.cache/huggingface/lerobot/local

@@ -82,26 +82,42 @@ All columns also stream to wandb (`wandb.enable=true` in the
 ```
 hil-serl-ImprovedVersion/
 ├── README.md              ← this file (bilingual)
-├── docs/                  ← cross-cutting technical docs (architecture overview)
+├── docs/                  ← all unified technical docs live here
+│   ├── architecture-overview.md           ← navigation across the 2x2 matrix
+│   ├── CHANGES.md                         ← V1 → V2.0 → V2.1 changelog
+│   ├── DEPLOY_GUIDE.md                    ← end-to-end environment setup
+│   ├── 实验合作内容.md                      ← collaborator playbook (training / hand-off)
+│   ├── 4090_1h_cheatsheet.md              ← 1-hour smoke-run recipe
+│   ├── TOUCH_INTERVENTION_GUIDE.md        ← touch-haptic teleop wiring
+│   ├── 参数对比_V1_V2_vs_hil-serl-sim.md   ← hyperparameter delta table
+│   ├── sim_architecture_alignment.md      ← PyTorch sim ↔ JAX sim alignment
+│   ├── hil-serl-sim_复现结果分析.md         ← upstream-run diagnostic notes
+│   ├── hil-serl-sim_算力与远程训练方案.md    ← compute / remote training plan
+│   └── 远程算力机加速拉取方案.md             ← faster `git pull` from China-region pods
+│
 ├── results/               ← shared task results (4090 smoke runs, figures)
 ├── academic/              ← LOCAL-ONLY (paper / slides / defense / report)
 │
-├── v1-pytorch/            ← V1 PyTorch — first improved fork, sparse reward
+├── v1-pytorch/            ← V1 PyTorch — sparse reward (lerobot)
 │   ├── lerobot/           ← entry point: lerobot/run_learner.sh
-│   ├── SurRoL_v2/         ← vendored sim
-│   └── docs/              ← variant-specific deploy/cheatsheet/changes
+│   └── SurRoL_v2/         ← vendored sim
 │
-├── v2-pytorch/            ← V2 PyTorch — hybrid V2.1 reward, F7 logging
+├── v2-pytorch/            ← V2 PyTorch — hybrid V2.1 reward + F7 logging (lerobot)
 │   ├── lerobot/           ← entry point: lerobot/run_learner.sh
-│   ├── SurRoL_v2/
-│   └── docs/
+│   └── SurRoL_v2/
 │
-├── v1-jax/                ← upstream JAX baseline (GeorgeAuburn/hilserl_sim_v1)
+├── v1-jax/                ← upstream JAX baseline, unmodified
 │   └── hil-serl-sim/      ← entry point: hil-serl-sim/run_learner.sh
 │
 └── v2-jax/                ← V2 JAX — byte-identical mirror of v2-pytorch's reward
     └── hil-serl-sim/
 ```
+
+All technical documentation is at the repo root in `docs/` — the
+variant subdirectories hold only code (no per-variant `docs/` folder).
+Run paths inside each guide are written relative to a variant root,
+so prefix them with `cd v2-pytorch/` (or whichever variant you're
+running) before following the steps.
 
 `academic/` is in `.gitignore` and never published. See
 [`academic/README.md`](academic/README.md) (locally) for what lives there.
@@ -139,30 +155,23 @@ Detailed instructions: [`v2-pytorch/docs/DEPLOY_GUIDE.md`](v2-pytorch/docs/DEPLO
 |---|---|
 | Train V2.1 hybrid reward (recommended) | `v2-pytorch/lerobot/run_learner.sh` |
 | Compare with sparse baseline | `v1-pytorch/lerobot/run_learner.sh` |
-| Reproduce the 10%-success run that started this work | `v1-jax/hil-serl-sim/` |
+| Reproduce the 10%-success run that started this work | `v1-jax/hil-serl-sim/run_learner.sh` |
 | JAX-vs-PyTorch comparison with same reward | `v2-jax/` paired with `v2-pytorch/` |
-| Full reward-redesign rationale | `v2-pytorch/docs/CHANGES.md` §8 / §8b |
-| Operational playbook for collaborator | `v2-pytorch/docs/实验合作内容.md` |
-| 4090 / A100 cheatsheet | `v2-pytorch/docs/4090_1h_cheatsheet.md` |
-| Touch-haptic intervention guide | `v2-pytorch/docs/TOUCH_INTERVENTION_GUIDE.md` |
-| Architecture: how the 4 variants relate | `docs/architecture-overview.md` |
-| Numerical results (smoke runs, figures) | `results/4090_smoke_run/` |
-
-### Provenance / source repos
-
-This repo consolidates the four source repos below (all still maintained
-separately for incremental work — this repo is the *integrated view*):
-
-- [`LIJianxuanLeo/hilserl-surrol-improved`](https://github.com/LIJianxuanLeo/hilserl-surrol-improved) → `v1-pytorch/`
-- [`LIJianxuanLeo/hilserl-surrol-improved-v2`](https://github.com/LIJianxuanLeo/hilserl-surrol-improved-v2) → `v2-pytorch/`
-- [`GeorgeAuburn/hilserl_sim_v1`](https://github.com/GeorgeAuburn/hilserl_sim_v1) → `v1-jax/` (upstream)
-- [`LIJianxuanLeo/hilserl_sim_v2`](https://github.com/LIJianxuanLeo/hilserl_sim_v2) → `v2-jax/`
+| Full reward-redesign rationale | [`docs/CHANGES.md`](docs/CHANGES.md) §8 / §8b |
+| Operational playbook for collaborator | [`docs/实验合作内容.md`](docs/实验合作内容.md) |
+| End-to-end environment setup | [`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md) |
+| 4090 / A100 1-hour cheatsheet | [`docs/4090_1h_cheatsheet.md`](docs/4090_1h_cheatsheet.md) |
+| Touch-haptic intervention guide | [`docs/TOUCH_INTERVENTION_GUIDE.md`](docs/TOUCH_INTERVENTION_GUIDE.md) |
+| Hyperparameter delta across variants | [`docs/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/参数对比_V1_V2_vs_hil-serl-sim.md) |
+| Faster `git pull` for China-region pods | [`docs/远程算力机加速拉取方案.md`](docs/远程算力机加速拉取方案.md) |
+| Architecture: how the 4 variants relate | [`docs/architecture-overview.md`](docs/architecture-overview.md) |
+| Numerical results (smoke runs, figures) | [`results/4090_smoke_run/`](results/4090_smoke_run/) |
 
 ### License
 
-Inherits the upstream licenses of each subdirectory. The bridging code
-(consolidation scripts, top-level `docs/`, `results/`) is contributed
-under MIT.
+The bridging code (consolidation scripts, top-level `docs/`, `results/`)
+is released under MIT. Each variant subdirectory inherits any upstream
+licenses that originally applied to the code it contains.
 
 ---
 
@@ -229,26 +238,40 @@ V2.0 → V2.1 的重构是本项目实质性的工程贡献：设计来自
 ```
 hil-serl-ImprovedVersion/
 ├── README.md              ← 本文件（中英对照）
-├── docs/                  ← 跨变体技术文档（架构总览）
+├── docs/                  ← 所有统一技术文档都放这里
+│   ├── architecture-overview.md           ← 跨变体导航（2x2 矩阵）
+│   ├── CHANGES.md                         ← V1 → V2.0 → V2.1 变更日志
+│   ├── DEPLOY_GUIDE.md                    ← 端到端部署指南
+│   ├── 实验合作内容.md                      ← 协作者训练剧本
+│   ├── 4090_1h_cheatsheet.md              ← 1 小时 smoke run 速通
+│   ├── TOUCH_INTERVENTION_GUIDE.md        ← Touch 触觉介入接线
+│   ├── 参数对比_V1_V2_vs_hil-serl-sim.md   ← 超参对比表
+│   ├── sim_architecture_alignment.md      ← PyTorch 仿真 ↔ JAX 仿真对齐
+│   ├── hil-serl-sim_复现结果分析.md         ← 上游复现诊断笔记
+│   ├── hil-serl-sim_算力与远程训练方案.md    ← 算力与远程训练方案
+│   └── 远程算力机加速拉取方案.md             ← 国内 GPU 服务器加速 git pull
+│
 ├── results/               ← 共享任务结果（4090 smoke 数据、图表）
 ├── academic/              ← 仅本地（paper / slides / defense / report）
 │
-├── v1-pytorch/            ← V1 PyTorch —— 第一版改进，稀疏奖励
+├── v1-pytorch/            ← V1 PyTorch —— 稀疏奖励（lerobot）
 │   ├── lerobot/           ← 入口：lerobot/run_learner.sh
-│   ├── SurRoL_v2/         ← vendored 仿真
-│   └── docs/              ← 变体专属 deploy / cheatsheet / changes
+│   └── SurRoL_v2/         ← vendored 仿真
 │
-├── v2-pytorch/            ← V2 PyTorch —— V2.1 hybrid 奖励 + F7 日志
+├── v2-pytorch/            ← V2 PyTorch —— V2.1 hybrid 奖励 + F7 日志（lerobot）
 │   ├── lerobot/           ← 入口：lerobot/run_learner.sh
-│   ├── SurRoL_v2/
-│   └── docs/
+│   └── SurRoL_v2/
 │
-├── v1-jax/                ← 上游 JAX baseline（GeorgeAuburn/hilserl_sim_v1）
+├── v1-jax/                ← 上游 JAX baseline，未做修改
 │   └── hil-serl-sim/      ← 入口：hil-serl-sim/run_learner.sh
 │
 └── v2-jax/                ← V2 JAX —— v2-pytorch reward 的字节镜像
     └── hil-serl-sim/
 ```
+
+所有技术文档都在仓库根的 `docs/` —— 各变体子目录只放代码（没有变体内的
+`docs/` 子文件夹）。文档里的 run 路径都是相对变体根写的，跑前先
+`cd v2-pytorch/`（或别的变体）即可。
 
 `academic/` 在 `.gitignore` 里，永不上传 GitHub。本地说明见
 [`academic/README.md`](academic/README.md)。
@@ -286,26 +309,19 @@ cd lerobot && ./run_actor.sh
 |---|---|
 | 跑 V2.1 hybrid 奖励（推荐） | `v2-pytorch/lerobot/run_learner.sh` |
 | 跑稀疏 baseline 做对照 | `v1-pytorch/lerobot/run_learner.sh` |
-| 复现合作者那次 10% 成功率 | `v1-jax/hil-serl-sim/` |
+| 复现合作者那次 10% 成功率 | `v1-jax/hil-serl-sim/run_learner.sh` |
 | 同 reward 下 JAX vs PyTorch 对比 | `v2-jax/` 与 `v2-pytorch/` 配合 |
-| 看 reward 重构完整原理 | `v2-pytorch/docs/CHANGES.md` §8 / §8b |
-| 合作者运维剧本 | `v2-pytorch/docs/实验合作内容.md` |
-| 4090 / A100 cheatsheet | `v2-pytorch/docs/4090_1h_cheatsheet.md` |
-| Touch 触觉干预指引 | `v2-pytorch/docs/TOUCH_INTERVENTION_GUIDE.md` |
-| 架构：四个变体如何关联 | `docs/architecture-overview.md` |
-| 数值结果（smoke run、图表） | `results/4090_smoke_run/` |
-
-### 来源仓库
-
-本仓库整合下面 4 个源仓库（它们继续独立维护用于增量工作；本仓库是
-*整合视图*）：
-
-- [`LIJianxuanLeo/hilserl-surrol-improved`](https://github.com/LIJianxuanLeo/hilserl-surrol-improved) → `v1-pytorch/`
-- [`LIJianxuanLeo/hilserl-surrol-improved-v2`](https://github.com/LIJianxuanLeo/hilserl-surrol-improved-v2) → `v2-pytorch/`
-- [`GeorgeAuburn/hilserl_sim_v1`](https://github.com/GeorgeAuburn/hilserl_sim_v1) → `v1-jax/`（上游）
-- [`LIJianxuanLeo/hilserl_sim_v2`](https://github.com/LIJianxuanLeo/hilserl_sim_v2) → `v2-jax/`
+| 看 reward 重构完整原理 | [`docs/CHANGES.md`](docs/CHANGES.md) §8 / §8b |
+| 合作者训练 / 协作剧本 | [`docs/实验合作内容.md`](docs/实验合作内容.md) |
+| 端到端部署 | [`docs/DEPLOY_GUIDE.md`](docs/DEPLOY_GUIDE.md) |
+| 4090 / A100 1 小时速通 | [`docs/4090_1h_cheatsheet.md`](docs/4090_1h_cheatsheet.md) |
+| Touch 触觉干预指引 | [`docs/TOUCH_INTERVENTION_GUIDE.md`](docs/TOUCH_INTERVENTION_GUIDE.md) |
+| 各变体超参差异表 | [`docs/参数对比_V1_V2_vs_hil-serl-sim.md`](docs/参数对比_V1_V2_vs_hil-serl-sim.md) |
+| 国内服务器加速 git pull | [`docs/远程算力机加速拉取方案.md`](docs/远程算力机加速拉取方案.md) |
+| 架构：四个变体如何关联 | [`docs/architecture-overview.md`](docs/architecture-overview.md) |
+| 数值结果（smoke run、图表） | [`results/4090_smoke_run/`](results/4090_smoke_run/) |
 
 ### 许可
 
-各子目录沿用其上游许可。整合层代码（顶层 `docs/`、`results/`、整合脚本）
-按 MIT 贡献。
+整合层代码（顶层 `docs/`、`results/`、整合脚本）按 MIT 发布。各变体子目录
+继承其代码原本适用的上游许可。

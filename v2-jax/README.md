@@ -1,12 +1,18 @@
-# hilserl_sim_v2
+# V2 JAX (hil-serl-sim with hybrid reward)
 
-> Hybrid sparse + dense shaping fork of [GeorgeAuburn/hilserl_sim_v1](https://github.com/GeorgeAuburn/hilserl_sim_v1)
-> for the Franka pick-and-lift task. Reward design mirrors `staged_reward_wrapper.py` v2.1
-> from our PyTorch / lerobot fork [`hilserl-surrol-improved-v2`](https://github.com/LIJianxuanLeo/hilserl-surrol-improved-v2).
-> Aligned with the engineering scheme `hilserl_抓取任务_稀疏奖励替换为稠密奖励_完整实现流程.docx`
-> (2026-05-04).
+> **This directory** is the JAX-side V2 of the integrated workbench
+> [`hil-serl-ImprovedVersion`](https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion).
+> It is a hybrid sparse + dense shaping fork of the upstream JAX baseline
+> [GeorgeAuburn/hilserl_sim_v1](https://github.com/GeorgeAuburn/hilserl_sim_v1)
+> for the Franka pick-and-lift task. Reward design mirrors
+> `staged_reward_wrapper.py` v2.1 from the PyTorch sibling at `../v2-pytorch/`.
+> Aligned with the engineering scheme
+> `hilserl_抓取任务_稀疏奖励替换为稠密奖励_完整实现流程.docx` (2026-05-04).
+>
+> All cross-cutting docs (deploy guide, changelog, collab playbook, architecture
+> overview) live at the repo root: [`../docs/`](../docs/).
 
-## What changed vs `hilserl_sim_v1`
+## What changed vs the upstream baseline (`../v1-jax/`)
 
 This fork is a **single-file change** on top of the v1 baseline (plus this README and the new
 wrapper module). All of the JAX agent, RLPD trainer, F6 logging, and HIL-DAgger machinery is
@@ -123,15 +129,15 @@ task, not by grinding shaping reward.
 ## Provenance
 
 - Upstream baseline: <https://github.com/GeorgeAuburn/hilserl_sim_v1>
-  (initial commit `de9781d`, "Initial import: hil-serl-sim 仿真与训练代码")
-- V2 reward design: ported from
-  `hilserl-surrol-improved-v2/lerobot/src/lerobot/rl/staged_reward_wrapper.py`
+  — also vendored in this repo at `../v1-jax/` (unmodified) for the
+  V1-JAX-vs-V2-JAX ablation.
+- V2 reward design: ported from `../v2-pytorch/lerobot/src/lerobot/rl/staged_reward_wrapper.py`
   (PyTorch / lerobot variant). The math is byte-identical so any
   JAX-vs-PyTorch comparison isolates the framework, not the reward.
-- The original PyTorch V2 design doc:
-  `hilserl-surrol-improved-v2/docs/CHANGES.md` (V1 → V2 reward redesign rationale).
+- The original PyTorch V2 design doc: [`../docs/CHANGES.md`](../docs/CHANGES.md)
+  §8 / §8b (V1 → V2.0 → V2.1 reward redesign rationale).
 
 ## License
 
-Inherits the upstream `hilserl_sim_v1` license. The new file
+Inherits the upstream `hil-serl-sim` license. The new file
 `staged_reward_wrapper.py` is contributed under the same terms.

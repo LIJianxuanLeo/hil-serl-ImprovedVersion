@@ -49,12 +49,16 @@ python plot_training.py outputs/train/franka_sim_sac_touch
 
 ## 快速开始
 
-```bash
-# 克隆（包含子模块）
-git clone --recursive https://github.com/LIJianxuanLeo/hilserl-surrol-improved.git
-cd hilserl-surrol-improved
+> **注意**：本目录是整合仓库 [`hil-serl-ImprovedVersion`](https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion)
+> 中的 **V2 PyTorch** 一格（hybrid V2.1 reward + F7 logging，**新工作推荐用本格**）。
+> 完整文档（中英 README、技术文档、协作剧本）在仓库根。
 
-# 一键部署
+```bash
+# 克隆整合仓库
+git clone --recursive https://github.com/LIJianxuanLeo/hil-serl-ImprovedVersion.git
+cd hil-serl-ImprovedVersion/v2-pytorch    # ← V2 PyTorch 在这一格
+
+# 一键部署（装 SurRoL_v2 + lerobot extras + gym_hil）
 bash setup.sh
 
 # 激活环境
@@ -105,18 +109,18 @@ wandb login
 
 ## 文档
 
-- **[部署与训练指南](docs/DEPLOY_GUIDE.md)** - 完整的中文安装、配置、训练、调参指南
-- **[改进记录](docs/CHANGES.md)** - 所有修改项的技术分析
+整合仓库的所有技术文档统一在 **[`../docs/`](../docs/)** 下：
+- **[`../docs/DEPLOY_GUIDE.md`](../docs/DEPLOY_GUIDE.md)** — 完整安装、配置、训练、调参指南
+- **[`../docs/CHANGES.md`](../docs/CHANGES.md)** — 所有修改项的技术分析（含 §8b：V2.0 → V2.1 hybrid reward 重构）
+- **[`../docs/实验合作内容.md`](../docs/实验合作内容.md)** — A100 协作训练剧本（含 wandb 设置）
+- **[`../docs/architecture-overview.md`](../docs/architecture-overview.md)** — 跨变体（V1/V2 × PT/JAX）架构总览
 
 ## 项目结构
 
 ```
-hilserl-surrol-improved/
+v2-pytorch/                          ← 你现在在这一格
 ├── setup.sh                          # 一键部署脚本
-├── docs/
-│   ├── DEPLOY_GUIDE.md               # 详细部署指南（中文）
-│   └── CHANGES.md                    # 改进记录
-├── lerobot/                          # 修改版 LeRobot（SAC + HIL）
+├── lerobot/                          # 修改版 LeRobot（SAC + HIL + V2.1 hybrid reward + F7 logging）
 │   ├── train_config_gym_hil_touch.json       # 训练配置（已修复）
 │   ├── env_config_gym_hil_touch_record.json  # 数据采集配置
 │   ├── env_config_gym_hil_il.json            # 键盘采集配置
