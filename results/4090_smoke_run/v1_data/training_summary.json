@@ -1,0 +1,28 @@
+{
+  "job_name": "smoke_v1",
+  "training_duration_s": 73.3,
+  "training_duration_h": 0.02,
+  "total_optimization_steps": 1500,
+  "total_episodes": 59,
+  "total_interventions": 24,
+  "total_successes": 20,
+  "training_success_rate": 0.4,
+  "intervention_episode_ratio": 0.48,
+  "best_episodic_reward": 1.0,
+  "best_eval_success_rate": 0.5,
+  "lowest_critic_loss": 3.944168,
+  "success_threshold": 0.5,
+  "gpu_peak_memory_mb": 241.4,
+  "device": "cuda",
+  "variant": "v1",
+  "config": {
+    "num_critics": 6,
+    "utd_ratio": 1,
+    "batch_size": 256,
+    "discount": 0.97,
+    "actor_lr": 0.0003,
+    "grad_clip_norm": 100.0,
+    "network_width": 256,
+    "image_augmentation_pad": 6
+  }
+}

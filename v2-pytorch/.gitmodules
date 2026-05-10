@@ -1,0 +1,9 @@
+[submodule "SurRoL_v2/ext/bullet3"]
+	path = SurRoL_v2/ext/bullet3
+	url = https://github.com/bulletphysics/bullet3.git
+[submodule "SurRoL_v2/ext/pybullet_rendering"]
+	path = SurRoL_v2/ext/pybullet_rendering
+	url = https://github.com/ikalevatykh/pybullet_rendering.git
+[submodule "SurRoL_v2/ext/panda3d-kivy"]
+	path = SurRoL_v2/ext/panda3d-kivy
+	url = https://github.com/yuehaowang/panda3d-kivy.git

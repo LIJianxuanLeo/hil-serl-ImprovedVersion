@@ -1,0 +1,33 @@
+{
+    "env": {
+      "name": "gym_hil",
+      "task": "PandaPickCubeBase-v0",
+      "fps": 10,
+      "robot": null,
+      "teleop": {
+        "type": "touch",
+        "use_gripper": true,
+        "device_name": "right",
+        "position_scale": 0.2,
+        "haptic_module_path": "__HAPTIC_MODULE_PATH__",
+        "clutch_mode": true
+      },
+      "processor": {
+        "gripper": { "use_gripper": true, "gripper_penalty": -0.02 },
+        "reset": {
+          "fixed_reset_joint_positions": [0.0, 0.195, 0.0, -2.43, 0.0, 2.62, 0.785],
+          "control_time_s": 15.0,
+          "terminate_on_success": true
+        }
+      }
+    },
+    "dataset": {
+      "repo_id": "local/franka_sim_touch_demos",
+      "root": null,
+      "task": "pick_cube",
+      "num_episodes_to_record": 30,
+      "push_to_hub": false
+    },
+    "mode": "record",
+    "device": "cuda"
+  }
