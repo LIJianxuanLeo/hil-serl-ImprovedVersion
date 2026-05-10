@@ -41,7 +41,7 @@ that points into the rest.
 
 | Axis | What changes |
 |---|---|
-| **Reward (V1 → V2)** | sparse 0/1 → hybrid sparse + small dense shaping, with anti-farming guarantees. See [`CHANGES.md`](CHANGES.md) §8 / §8b. |
+| **Reward (V1 → V2)** | sparse 0/1 → hybrid sparse + small dense shaping, with anti-farming guarantees. See [`../02-改进记录/CHANGES.md`](../02-改进记录/CHANGES.md) §8 / §8b. |
 | **Framework (PyTorch → JAX)** | lerobot's modular SAC with REDQ in PyTorch ↔ serl_launcher's RLPD trainer in JAX/Flax. Different impls, different optimisations, different logging stacks. |
 | **Logging schema (V1 → V2.1)** | V2.1 PyTorch adds **F7** per-stage reward sums (`r_sub_*` + `grasp_event_fired`). JAX V2.1 surfaces the same dict via `info["reward_dict"]` but the JAX trainer doesn't yet pipe it into its loggers — see [JAX side TODO](#jax-side-followups). |
 
@@ -80,19 +80,25 @@ v2-jax/hil-serl-sim/run_actor.sh
 v2-jax/hil-serl-sim/examples/experiments/pick_cube_sim/staged_reward_wrapper.py
 ```
 
-### Unified docs (all in this folder)
+### Unified docs (grouped by purpose under `docs/`)
+
+Index: [`docs/README.md`](../README.md).
 
 ```
-docs/CHANGES.md                       # full V1 → V2.0 → V2.1 changelog (with §8b reward refactor)
-docs/DEPLOY_GUIDE.md                  # how to deploy on a fresh GPU pod
-docs/4090_1h_cheatsheet.md            # 1-hour quick smoke-run recipe
-docs/TOUCH_INTERVENTION_GUIDE.md      # touch-haptic teleop wiring
-docs/实验合作内容.md                    # operations playbook for collaborator (incl. wandb section)
-docs/sim_architecture_alignment.md    # how PyTorch sim mirrors JAX sim
-docs/参数对比_V1_V2_vs_hil-serl-sim.md  # hyperparameter delta table
-docs/hil-serl-sim_复现结果分析.md       # upstream-run diagnostic notes
-docs/hil-serl-sim_算力与远程训练方案.md  # compute / remote training plan
-docs/远程算力机加速拉取方案.md           # faster `git pull` from China-region pods
+docs/01-架构与设计/architecture-overview.md           # this file
+docs/01-架构与设计/sim_architecture_alignment.md      # how PyTorch sim mirrors JAX sim
+docs/01-架构与设计/参数对比_V1_V2_vs_hil-serl-sim.md   # hyperparameter delta table
+
+docs/02-改进记录/CHANGES.md                          # full V1 → V2.0 → V2.1 changelog (with §8b reward refactor)
+
+docs/03-部署与训练指南/DEPLOY_GUIDE.md                # how to deploy on a fresh GPU pod
+docs/03-部署与训练指南/TOUCH_INTERVENTION_GUIDE.md    # touch-haptic teleop wiring
+docs/03-部署与训练指南/实验合作内容.md                  # operations playbook for collaborator (incl. wandb section)
+
+docs/04-远程算力与传输/hil-serl-sim_算力与远程训练方案.md  # compute / remote training plan
+docs/04-远程算力与传输/远程算力机加速拉取方案.md           # faster `git pull` from China-region pods
+
+docs/05-结果分析/hil-serl-sim_复现结果分析.md          # upstream-run diagnostic notes
 ```
 
 These docs are written assuming you `cd` into a variant subdirectory
@@ -102,7 +108,6 @@ guides are relative to that variant root.
 ### Cross-variant resources (this consolidation level)
 
 ```
-docs/architecture-overview.md             # this file
 results/4090_smoke_run/                   # V1 + V2 numerical data + figures
 academic/                                 # LOCAL ONLY — paper / slides / etc.
 ```

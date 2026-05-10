@@ -119,6 +119,6 @@ RTX 3060 (12GB) 使用 batch_size=256 时 GPU 内存溢出导致系统死机。
 - 增加 `online_step_before_learning: 100 → 200`
 - 放宽策略标准差上限 (`std_max: 5.0 → 10.0`)
 - 添加 `setup.sh` 一键部署脚本
-- 添加完整中文部署文档 `docs/DEPLOY_GUIDE.md`
+- 添加完整中文部署文档 `docs/03-部署与训练指南/DEPLOY_GUIDE.md`
 - 将预采集数据集纳入 git 追踪
 - 清理 `.DS_Store` 等临时文件
