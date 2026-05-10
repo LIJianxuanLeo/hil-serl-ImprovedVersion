@@ -66,7 +66,7 @@ For the actual policy capability, refer to the hil-serl-sim 10 % baseline analys
 | `v2_data/*` | Same schema for V2 dense reward |
 | `figures/fig_v1_curves.pdf` | 6-panel training curves for V1 |
 | `figures/fig_v2_curves.pdf` | 6-panel training curves for V2 |
-| `figures/fig_compare_v1v2.pdf` | **V1 vs V2 overlay** — paper Section 8.4 figure |
+| `figures/fig_compare_v1v2.pdf` | **V1 vs V2 overlay** — headline comparison figure |
 
 ## How this was produced
 

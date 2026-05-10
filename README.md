@@ -101,7 +101,7 @@ hil-serl-ImprovedVersion/
 │       └── hil-serl-sim_复现结果分析.md         — upstream-run diagnostic notes
 │
 ├── results/               ← shared task results (4090 smoke runs, figures)
-├── academic/              ← LOCAL-ONLY (paper / slides / defense / report)
+├── academic/              ← LOCAL-ONLY (private working materials)
 │
 ├── v1-pytorch/            ← V1 PyTorch — sparse reward (lerobot)
 │   ├── lerobot/           ← entry point: lerobot/run_learner.sh
@@ -265,7 +265,7 @@ hil-serl-ImprovedVersion/
 │       └── hil-serl-sim_复现结果分析.md         — 上游复现诊断报告
 │
 ├── results/               ← 共享任务结果（4090 smoke 数据、图表）
-├── academic/              ← 仅本地（paper / slides / defense / report）
+├── academic/              ← 仅本地（私人工作材料）
 │
 ├── v1-pytorch/            ← V1 PyTorch —— 稀疏奖励（lerobot）
 │   ├── lerobot/           ← 入口：lerobot/run_learner.sh

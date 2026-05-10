@@ -3,14 +3,14 @@
 > **数据来源**：协作者在 AutoDL A 服务器上完整跑完 hil-serl-sim 参考库的 pick_cube_sim 实验，
 > 导出目录 `report_export_pick_cube_sim_20260429_145425/`，包含 8 个文件（checkpoints / hyperparameters / eval_results / buffer_snapshots / run_manifest / report_summary）。
 >
-> **TL;DR**：参考库实际表现**远低于其论文宣称值**。3.83 小时跑了 22 万步，最终评估成功率只有 **10%**（20 条评估中 2 条成功）。
+> **TL;DR**：参考库实际表现**远低于其上游 README 声称的数字**。3.83 小时跑了 22 万步，最终评估成功率只有 **10%**（20 条评估中 2 条成功）。
 > 这反过来**强化了我们 V1/V2 的相对价值** —— 我们的设计（REDQ-10 + UTD=8 + DRQ + F6 日志）有充分理由跑出比这更好的结果。
 
 ---
 
 ## 1. 关键数字速览
 
-| 维度 | 复现实测值 | 论文宣称值 | 差距 |
+| 维度 | 复现实测值 | 上游声称值 | 差距 |
 |------|-----------|----------|------|
 | **训练时长** | 3.83 小时 | ~1 小时 | **3.8×** 慢 |
 | **优化步数** | 220,000 | ~30,000 | **7.3×** 多 |
@@ -18,7 +18,7 @@
 | **平均成功 episode 时长** | 3.33 秒 | — | — |
 | **吞吐** | 15.6 steps/sec（标准差 3.9s） | — | 稳定 |
 
-**核心结论**：用 7 倍的训练步数、4 倍的时间，达到了论文宣称值的 **1/10 成功率**。
+**核心结论**：用 7 倍的训练步数、4 倍的时间，达到了上游声称值的 **1/10 成功率**。
 
 ---
 
@@ -28,7 +28,7 @@
 
 ```
 15:11:56  step  5,000    第一个 checkpoint
-15:38:49  step 30,000    论文宣称的"收敛点"  ← 应到 100% 但显然没有
+15:38:49  step 30,000    上游声称的"收敛点"  ← 应到 100% 但显然没有
 17:04:57  step 110,000   半数训练
 19:01:28  step 220,000   最后一个 checkpoint
 ```
@@ -76,19 +76,19 @@
 
 ---
 
-## 3. 与论文宣称值的对照
+## 3. 与上游声称值的对照
 
 参考库 README 原话：
 
 > "After 30000 steps of training and human's intervention(about 1 hours), our policy can achieve 100% of success in pick_cube_sim environment."
 
-| 阶段 | 论文应到 | 实测到 |
+| 阶段 | 上游声称 | 实测到 |
 |------|---------|--------|
 | 30K 步（~1 小时） | 100% 成功 | ❌ 没有 30K 步的评估数据，但很可能 < 10% |
-| 220K 步（~3.83 小时） | 已超出论文范围 | **10%** |
+| 220K 步（~3.83 小时） | 已超出上游声称的范围 | **10%** |
 | 任意 checkpoint | — | 没有任何 checkpoint 的评估数据，只在最终步评估 |
 
-**这个差距是惊人的**。3.83 小时跑了 7 倍训练量，仍然达不到论文宣称的"1 小时收敛"的 1/10 性能。
+**这个差距是惊人的**。3.83 小时跑了 7 倍训练量，仍然达不到上游声称的"1 小时收敛"的 1/10 性能。
 
 ---
 
@@ -109,16 +109,16 @@
 
 `policy_sampling: stochastic (sample_actions argmax=False)`
 
-随机采样为成功率引入额外噪声。如果切换为 `argmax=True` 的确定性评估，**很可能成功率从 10% 提升到 30-50%**。但这仍然远不及论文的 100%。
+随机采样为成功率引入额外噪声。如果切换为 `argmax=True` 的确定性评估，**很可能成功率从 10% 提升到 30-50%**。但这仍然远不及上游声称的 100%。
 
 ### 原因 C：相机配置差异
 
-| | hil-serl-sim 实际跑 | 论文实验（猜测） | 我们的 V1/V2 |
+| | hil-serl-sim 实际跑 | 上游可能的原始配置（猜测） | 我们的 V1/V2 |
 |---|------|------|------|
 | 相机 1 | wrist_1（手腕） | wrist | front（固定前视） |
 | 相机 2 | wrist_2（手腕的另一面？） | side / overhead | wrist |
 
-两个手腕相机给的视角冗余度高、全局信息少。如果论文实际用了 front+wrist 但代码默认 wrist_1+wrist_2，那么默认配置就比论文设置差。
+两个手腕相机给的视角冗余度高、全局信息少。如果上游原始实验实际用了 front+wrist 但代码默认 wrist_1+wrist_2，那么默认配置就比原始设置差。
 
 ### 原因 D：DRQ 数据增强未确认开启
 
@@ -175,13 +175,11 @@
 
 **这次的复现失败让我们 F1-F6 的价值变得显而易见**：如果他们有 loss 曲线，就能知道是发散了还是训练正常但奖励信号不够；如果有干预率，就能知道是干预太少还是策略学不会。**没有这些数据 = 实验失败后无法 debug**。
 
-### 6.2 论文叙事直接获得"baseline 数据"
+### 6.2 直接获得"baseline 数据"
 
-复现库之前只能引用"作者宣称 100%"，现在我们有了**实测的 baseline**：
+之前只能引用"作者宣称 100%"，现在我们有了**实测的 baseline**：
 
-> "Even the official reproduction of hil-serl-sim, when run without continuous human intervention on AutoDL's commodity GPU, achieves only 10% success after 220K steps (3.83 hours of training). Our V1/V2 implementations, with REDQ-10 ensemble, UTD=8, DRQ augmentation, and Touch-based real-time intervention, are designed to overcome these limitations."
-
-这是一句**极有冲击力的论文 motivation**。
+> 在 AutoDL 商用 GPU 上无持续人工干预地跑 hil-serl-sim 官方实现，220K 步（3.83 小时）后成功率仅 10%。我们的 V1/V2 通过 REDQ-10 ensemble + UTD=8 + DRQ 增强 + Touch 实时干预，正是为了跨越这些限制。
 
 ### 6.3 设定了我们的"必须超过"门槛
 
@@ -191,8 +189,8 @@
 |------------|------|
 | ≥ 参考库实测 10% | 否则没意义 |
 | ≥ 30%（确定性评估下） | 表明改进真实有效 |
-| ≥ 60%（公平对比） | 接近论文宣称区间，论文价值明显 |
-| ≥ 90%（理想） | 可以挑战论文宣称 |
+| ≥ 60%（公平对比） | 接近上游声称区间 |
+| ≥ 90%（理想） | 完整反超上游声称 |
 
 考虑到我们的优势（REDQ-10、UTD=8、unfrozen encoder、DRQ、真实人工干预），目标 **≥ 60%** 是合理的。
 
@@ -200,14 +198,14 @@
 
 ## 7. 实际可比性的 caveat
 
-需要诚实说明的几点，以保证论文 fair comparison：
+需要诚实说明的几点，以保证 fair comparison：
 
 ### 7.1 任务环境不完全相同
 
 - 参考库：纯 hil-serl-sim 的 pick_cube_sim 任务（自己的 MuJoCo 环境）
 - 我们：SurRoL v2 + gym_hil 的 PandaPickCubeBase-v0
 
-虽然都是"抓 cube 抬升 10 cm"，**物理参数（cube 大小、初始位置分布、夹爪夹力等）可能有微小差异**。我们应在论文中说明这点，避免被审稿人挑刺。
+虽然都是"抓 cube 抬升 10 cm"，**物理参数（cube 大小、初始位置分布、夹爪夹力等）可能有微小差异**。我们在做对照报告时应明确说明这点。
 
 ### 7.2 评估协议不同
 
@@ -246,17 +244,6 @@
 
 ---
 
-## 9. 对论文的直接影响
+## 9. 一句话总结
 
-把这份数据加入论文 Section 4 "Reference Replication" 或 Section 8 "Experiments"，可以这样写：
-
-> **Section 4.3 Reproducibility of hil-serl-sim**:
-> We attempted an end-to-end reproduction of the hil-serl-sim reference implementation on a remote A100 server. The training ran for 3.83 hours over 220,000 optimization steps, producing 44 checkpoints. The final evaluation at step 220K, conducted with stochastic policy sampling over 20 trajectories, achieved a success rate of 10% — substantially below the 100% rate reported in the original repository's README. We attribute this gap primarily to the lack of human intervention during training (the AutoDL server provides no GUI for keyboard teleop) and the absence of any logging infrastructure (WandB was disabled, and the codebase has no CSV fallback), which made post-hoc diagnosis impossible. This empirical baseline motivates the engineering contributions of our work, particularly the F1–F6 logging system and the integration of the Geomagic Touch device for continuous remote intervention.
-
-这是一段**非常强的 motivation paragraph**。
-
----
-
-## 10. 一句话总结
-
-> **参考库官方复现实测 10% 成功率（3.83 小时 / 22 万步）。原因主要是无人工干预 + 无诊断日志。这反过来直接证明了我们项目两大支柱（REDQ + DRQ + 真实干预 / F1-F6 完整日志）的存在价值。论文叙事和实验目标都因此变得更清晰。**
+> **参考库官方复现实测 10% 成功率（3.83 小时 / 22 万步）。原因主要是无人工干预 + 无诊断日志。这反过来直接证明了我们项目两大支柱（REDQ + DRQ + 真实干预 / F1-F6 完整日志）的存在价值。**

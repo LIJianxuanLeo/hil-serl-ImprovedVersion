@@ -54,7 +54,7 @@ that points into the rest.
 | Did our improvements actually fix the upstream's 10% gap? | `v1-jax` (baseline) vs `v2-pytorch` | full sweep |
 | Reward-hacking attribution: where does V2.1's reward come from? | `v2-pytorch` only | `r_sub_success` vs `r_sub_approach` ratio over training |
 
-The third row is the headline experiment for the paper.
+The third row is the headline experiment of this project.
 
 ## File-level navigation
 
@@ -109,7 +109,7 @@ guides are relative to that variant root.
 
 ```
 results/4090_smoke_run/                   # V1 + V2 numerical data + figures
-academic/                                 # LOCAL ONLY — paper / slides / etc.
+academic/                                 # LOCAL ONLY — private working materials
 ```
 
 ## JAX-side follow-ups

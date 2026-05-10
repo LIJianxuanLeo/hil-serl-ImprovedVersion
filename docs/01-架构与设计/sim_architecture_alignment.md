@@ -170,17 +170,7 @@ python -m lerobot.rl.actor --config_path train_config_gym_hil_touch.json
 
 ---
 
-## 七、对论文叙事的影响
-
-之前论文的 §5 Method 章节描述 V1/V2 时已经引用了 sim 作为参考。现在的对齐让这些声明更直接：
-
-> "Our V1 hyperparameter alignment matches **all** of hil-serl-sim's algorithmic core (REDQ-10, RLPD 50/50, ResNet-pretrained encoder, batch 256, $\gamma = 0.97$, target entropy $= -d/2$). The four points where we exceed the reference are deliberate compute upgrades enabled by our A100/4090-class hardware: UTD ratio $8$ (vs.\ $2$), network width $512$ (vs.\ $256$), latent dimension $128$ (vs.\ $50$), and replay buffer capacity 500K (vs.\ 200K). Our V2 design retains the same architectural upgrades but replaces the sparse reward with our novel three-stage dense formulation."
-
-可以直接更新到 paper.tex 的 §5.1 / §6 段落里。
-
----
-
-## 八、一句话总结
+## 七、一句话总结
 
 > **V1 = hil-serl-sim 算法核心 + PyTorch 翻译 + 4 项算力升级 + 我们的环境/teleop 选择。
 > V2 = V1 架构 + 我们的密集奖励设计 + V2 身份超参（discount/target_entropy/clip/lr/encoder-sharing）。**
